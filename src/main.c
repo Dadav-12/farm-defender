@@ -3,6 +3,7 @@
 #include "intro.h"
 #include "gamestate.h"
 #include "instruction.h"
+#include "morning.h"
 
 
 
@@ -19,6 +20,9 @@ int main()
             break;
         case INSTRUCTION:
             drawInstruction(screen);
+            break;
+        case MORNING:
+            drawMorning(screen);
             break;
         }
 
