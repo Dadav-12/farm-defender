@@ -2,10 +2,10 @@
 #include "morning.h"
 #include<stdlib.h>
 #include "player.h"
+#include"store.h"
 #include<stdio.h>
  Tigr *house = NULL;
  Tigr *shop = NULL;
- Player farmer;
  void assets(){
     if(!house){
         house = tigrLoadImage("assets/house.png");
@@ -73,12 +73,12 @@ void drawFarmPlot(Tigr *screen)
 }
 void updateFarmer(Tigr *screen)
 {
-    if (!farmer.sprite)
+    if (!player.sprite)
     {
-        initPlayer(&farmer, "assets/farmer.png");
+        initPlayer(&player, "assets/farmer.png");
     }
-    movePlayer(&farmer, screen);
-    drawPlayer(&farmer, screen);
+    movePlayer(&player, screen);
+    drawPlayer(&player, screen);
 }
 void drawMorning(Tigr *screen)
 {
@@ -96,8 +96,10 @@ void drawMorning(Tigr *screen)
 
     // Draw shop below the house
     if(shop){
-    tigrBlitAlpha(screen, shop, 800, 400, 0, 0, shop->w, shop->h,255);}
+    tigrBlitAlpha(screen, shop, 800, 350, 0, 0, shop->w, shop->h,255);
+}
     updateFarmer(screen);
+    storeSystem(screen, &player);
 }
 
 

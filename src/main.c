@@ -4,6 +4,7 @@
 #include "gamestate.h"
 #include "instruction.h"
 #include "morning.h"
+#include"player.h"
 
 
 
@@ -13,6 +14,7 @@ int main()
 
     while (!tigrClosed(screen))
     {
+    
         switch (currentState)
         {
         case INTRO:
@@ -25,10 +27,9 @@ int main()
             drawMorning(screen);
             break;
         }
-
+        displayPlayerState(&player, screen);
         tigrUpdate(screen);
     }
-
     tigrFree(screen);
     return 0;
 }

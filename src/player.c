@@ -1,6 +1,5 @@
 #include "player.h"
-#include<stdio.h>
-
+Player player;
 void initPlayer(Player *p, const char *spritePath)
 {
     p->x = 500;
@@ -9,6 +8,10 @@ void initPlayer(Player *p, const char *spritePath)
     p->health = 100;
     p->damage = 10;
     p->sprite = tigrLoadImage(spritePath);
+
+    p->balance = 20;
+    p->hammerCount = 0;
+    p->waterCount = 0;
 }
 
 void movePlayer(Player *p, Tigr *screen)
@@ -42,4 +45,18 @@ void movePlayer(Player *p, Tigr *screen)
 void drawPlayer(Player *p, Tigr *screen)
 {
     tigrBlitAlpha(screen, p->sprite, p->x, p->y, 0, 0, p->sprite->w, p->sprite->h, 255);
+}
+
+void displayPlayerState(Player *p, Tigr *screen)
+{
+    // Draw inventory box
+    tigrFillRect(screen, 20, 20, 150, 60, tigrRGB(0, 0, 128)); // dark blue box
+    tigrPrint(screen, tfont, 30, 30, tigrRGB(255, 255, 255), "hammer %d", p->hammerCount);
+    tigrPrint(screen, tfont, 30, 50, tigrRGB(255, 255, 255), "water %d", p->waterCount);
+
+    // Draw HP box
+    tigrFillRect(screen, 20, 100, 150, 40, tigrRGB(128, 0, 0)); // dark red box
+    tigrPrint(screen, tfont, 30, 110, tigrRGB(255, 255, 255), "hp = %d", p->health);
+    tigrFillRect(screen, 20, 150, 150, 40, tigrRGB(0, 128, 0));
+    tigrPrint(screen, tfont, 30, 160, tigrRGB(255, 255, 255), "balance = %d", p->balance);
 }
