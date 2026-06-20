@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    int x, y;//postition on screen//
+    int x, y; // postition on screen//
     int speed;
     int health;
     int damage;
