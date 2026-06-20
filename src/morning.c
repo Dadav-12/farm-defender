@@ -1,41 +1,43 @@
 #include "../lib/tigr.h"
 #include "morning.h"
-#include<stdlib.h>
+#include <stdlib.h>
 #include "player.h"
-#include"store.h"
-#include<stdio.h>
- Tigr *house = NULL;
- Tigr *shop = NULL;
- void assets(){
-    if(!house){
+#include "store.h"
+#include <stdio.h>
+Tigr *house = NULL;
+Tigr *shop = NULL;
+void assets()
+{
+    if (!house)
+    {
         house = tigrLoadImage("assets/house.png");
     }
-    if(!shop){
+    if (!shop)
+    {
         shop = tigrLoadImage("assets/shop.png");
     }
+}
 
- }
+void drawFence(Tigr *screen)
+{
+    TPixel brown = tigrRGB(139, 69, 19); // fence color
 
- void drawFence(Tigr *screen)
- {
-     TPixel brown = tigrRGB(139, 69, 19); // fence color
+    int left = 200, top = 120;
+    int width = 880, height = 460;
+    int thickness = 15; // thickness of the fence
 
-     int left = 200, top = 120;
-     int width = 880, height = 460;
-     int thickness = 15; // thickness of the fence
+    // Top border
+    tigrFillRect(screen, left, top, width, thickness, brown);
 
-     // Top border
-     tigrFillRect(screen, left, top, width, thickness, brown);
+    // Bottom border
+    tigrFillRect(screen, left, top + height, width, thickness, brown);
 
-     // Bottom border
-     tigrFillRect(screen, left, top + height, width, thickness, brown);
+    // Left border
+    tigrFillRect(screen, left, top, thickness, height, brown);
 
-     // Left border
-     tigrFillRect(screen, left, top, thickness, height, brown);
-
-     // Right border
-     tigrFillRect(screen, left + width, top, thickness, height + thickness, brown);
- }
+    // Right border
+    tigrFillRect(screen, left + width, top, thickness, height + thickness, brown);
+}
 
 void drawPath(Tigr *screen)
 {
@@ -90,16 +92,16 @@ void drawMorning(Tigr *screen)
     drawPath(screen);
     drawFarmPlot(screen);
     // Draw house on the right side of the path
-    if(house){
+    if (house)
+    {
         tigrBlitAlpha(screen, house, 760, 260, 0, 0, house->w, house->h, 255);
     }
 
     // Draw shop below the house
-    if(shop){
-    tigrBlitAlpha(screen, shop, 800, 350, 0, 0, shop->w, shop->h,255);
-}
+    if (shop)
+    {
+        tigrBlitAlpha(screen, shop, 800, 350, 0, 0, shop->w, shop->h, 255);
+    }
     updateFarmer(screen);
     storeSystem(screen, &player);
 }
-
-

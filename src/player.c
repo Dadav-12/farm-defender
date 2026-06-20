@@ -20,7 +20,7 @@ void movePlayer(Player *p, Tigr *screen)
 {
     if (tigrKeyHeld(screen, 'W'))
         p->y -= p->speed;
-   
+
     if (tigrKeyHeld(screen, 'S'))
         p->y += p->speed;
 
