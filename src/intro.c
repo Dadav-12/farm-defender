@@ -20,7 +20,7 @@ void drawSceneryIntro(Tigr *screen)
 
     // Sun and ground
     tigrFillCircle(screen, 1000, 100, 70, tigrRGB(255, 255, 0));
-    tigrFill(screen, 0, 600, 1280, 120, tigrRGB(0, 180, 0));
+    tigrFill(screen, 0, 600, 1280, 200, tigrRGB(0, 180, 0));
 }
 typedef struct
 {

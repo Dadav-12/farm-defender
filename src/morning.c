@@ -4,8 +4,13 @@
 #include "player.h"
 #include "store.h"
 #include <stdio.h>
+
 Tigr *house = NULL;
 Tigr *shop = NULL;
+Tigr *fence = NULL;
+Tigr *grass = NULL;
+Tigr *path = NULL;
+
 void assets()
 {
     if (!house)
@@ -16,39 +21,20 @@ void assets()
     {
         shop = tigrLoadImage("assets/shop.png");
     }
+    if (!fence)
+    {
+        fence = tigrLoadImage("assets/fence.png");
+    }
+    if (!grass)
+    {
+        grass = tigrLoadImage("assets/grass.png");
+    }
+    if (!path)
+    {
+        path = tigrLoadImage("assets/path.png");
+    }
 }
 
-void drawFence(Tigr *screen)
-{
-    TPixel brown = tigrRGB(139, 69, 19); // fence color
-
-    int left = 200, top = 120;
-    int width = 880, height = 460;
-    int thickness = 15; // thickness of the fence
-
-    // Top border
-    tigrFillRect(screen, left, top, width, thickness, brown);
-
-    // Bottom border
-    tigrFillRect(screen, left, top + height, width, thickness, brown);
-
-    // Left border
-    tigrFillRect(screen, left, top, thickness, height, brown);
-
-    // Right border
-    tigrFillRect(screen, left + width, top, thickness, height + thickness, brown);
-}
-
-void drawPath(Tigr *screen)
-{
-    TPixel dirt = tigrRGB(210, 180, 140); // dirt color
-
-    // Vertical path (centered, touching top and bottom fence)
-    tigrFillRect(screen, 610, 120, 40, 456, dirt);
-
-    // Right branch (shorter, connecting to house area)
-    tigrFillRect(screen, 610, 320, 180, 40, dirt);
-}
 void drawFarmPlot(Tigr *screen)
 {
     TPixel soil = tigrRGB(160, 82, 45);
@@ -73,6 +59,7 @@ void drawFarmPlot(Tigr *screen)
         }
     }
 }
+
 void updateFarmer(Tigr *screen)
 {
     if (!player.sprite)
@@ -82,19 +69,33 @@ void updateFarmer(Tigr *screen)
     movePlayer(&player, screen);
     drawPlayer(&player, screen);
 }
+
 void drawMorning(Tigr *screen)
 {
     assets();
 
     // Draw the grass background full screen//
     tigrFill(screen, 0, 0, screen->w, screen->h, tigrRGB(34, 139, 34));
-    drawFence(screen);
-    drawPath(screen);
+
+    // Draw grass as the back ground of the map
+    if (grass)
+    {
+        for (int y = 0; y < screen->h; y += grass->h)
+        {
+            for (int x = 0; x < screen->w; x += grass->w)
+            {
+                // Draw grass tile at (x, y)
+                tigrBlit(screen, grass, x, y, 0, 0, grass->w, grass->h);
+            }
+        }
+    }
+
     drawFarmPlot(screen);
+
     // Draw house on the right side of the path
     if (house)
     {
-        tigrBlitAlpha(screen, house, 760, 260, 0, 0, house->w, house->h, 255);
+        tigrBlitAlpha(screen, house, 760, 200, 0, 0, house->w, house->h, 255);
     }
 
     // Draw shop below the house
@@ -102,6 +103,19 @@ void drawMorning(Tigr *screen)
     {
         tigrBlitAlpha(screen, shop, 800, 350, 0, 0, shop->w, shop->h, 255);
     }
+
+    // Draaw the fence surrounding the base
+    if (fence)
+    {
+        tigrBlitAlpha(screen, fence, 8, -30, 0, 0, fence->w, fence->h, 255);
+    }
+
+    // Draw path
+    if (path)
+    {
+        tigrBlitAlpha(screen, path, 320, 100, 0, 0, path->w, path->h, 255);
+    }
+
     updateFarmer(screen);
     storeSystem(screen, &player);
 }

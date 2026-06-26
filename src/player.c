@@ -38,11 +38,13 @@ void movePlayer(Player *p, Tigr *screen)
     // Keep inside farm fence
     if (p->x < 215)
         p->x = 215;
-    if (p->x > 1060 - p->sprite->w)
-        p->x = 1060 - p->sprite->w;
-    if (p->y > 580 - p->sprite->h)
-        p->y = 580 - p->sprite->h;
-    if (!isOutsideFarm && p->y < 135 && !(p->x > 590 && p->x < 670))
+    if (p->x > 1100 - p->sprite->w)
+        p->x = 1100 - p->sprite->w;
+    if (p->y < 135)
+        p->y = 135;
+    if (p->y > 590 - p->sprite->h)
+        p->y = 590 - p->sprite->h;
+    if (p->y < 135 && !(p->x > 590 && p->x < 670))
     {
         p->y = 135;
     }
