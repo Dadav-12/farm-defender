@@ -1,11 +1,11 @@
 #include "../lib/tigr.h"
-#include "intro.h"
-#include "gamestate.h"
-#include "instruction.h"
-#include "morning.h"
-#include "player.h"
-#include "night.h"
-#include "crop.h"
+#include "../lib/intro.h"
+#include "../lib/gamestate.h"
+#include "../lib/instruction.h"
+#include "../lib/morning.h"
+#include "../lib/player.h"
+#include "../lib/night.h"
+#include "../lib/crop.h"
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
 const float DAY_LENGTH = 180.0f;  // Morning lasts 180 seconds or 3 minutes
@@ -13,19 +13,13 @@ const float NIGHT_LENGTH = 60.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
 int currentDay = 1;
 
-// Data base for the crops
-const CropData crop_configs[] = {
-    [CROP_WHEAT] = {100.0f, 20},
-    [CROP_TOMATO] = {100.0f, 50},
-    [CROP_CORN] = {100.0f, 35},
-    [CROP_BERRY] = {100.0f, 80}};
+
 
 int main()
 {
     Tigr *screen = tigrWindow(1280, 801, "Farm Defender", 0);
 
-    // calling the function to initialized the crops
-    crop_configs;
+    initCrops(); // calling the function to initialized the crops
 
     while (!tigrClosed(screen))
     {
@@ -42,6 +36,7 @@ int main()
             break;
         case MORNING:
             drawMorning(screen);
+            cropLogic(&player, screen);
 
             // Increment our timer by the delta time
             dayTimer += dt;

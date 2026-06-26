@@ -1,33 +1,24 @@
 #ifndef CROP_H
 #define CROP_H
 
-typedef enum
-{
-    CROP_DRY,
-    CROP_WATERED,
-    CROP_READY
-} CropState;
-
-typedef enum
-{
-    CROP_WHEAT,
-    CROP_TOMATO,
-    CROP_CORN,
-    CROP_BERRY
-} CropType;
+#include "../lib/tigr.h"
+#include <stdbool.h>
+#include "../lib/player.h"
+#define ROWS 3
+#define COLS 3
+#define MAX_HEALTH 100
 
 typedef struct
 {
-    float growth_time;
-    int sell_value;
-} CropData;
-
-typedef struct
-{
-    int id;
-    CropType type;
-    CropState state;
-    float growth_timer;
+    int x, y;
+    int health;
+    bool canHarvest;
+    bool isWatering;
 } Crop;
+extern Crop crops[ROWS][COLS];
 
+
+// One main function to handle all crop logic
+void cropLogic(Player *player, Tigr *screen);
+void initCrops();
 #endif
