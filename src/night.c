@@ -1,23 +1,92 @@
 #include "../lib/tigr.h"
-#include "night.h"
-#include "player.h"
+#include "../lib/night.h"
+#include <stdlib.h>
+#include "../lib/player.h"
+#include <stdio.h>
+#include"../lib/crop.h"
+
+Tigr *houseN = NULL;
+Tigr *fenceN = NULL;
+Tigr *grassNight = NULL;
+Tigr *pathN = NULL;
+
+void assetsNight()
+{
+    if (!houseN)
+        houseN = tigrLoadImage("assets/house.png");
+    if (!fenceN)
+        fenceN = tigrLoadImage("assets/fence.png");
+    if (!grassNight)
+        grassNight = tigrLoadImage("assets/nightgrass1.png"); // darker grass
+    if (!pathN)
+        pathN = tigrLoadImage("assets/path.png");
+}
+
+void drawFarmPlotNight(Tigr *screen)
+{
+
+    TPixel soil = tigrRGB(120, 60, 30);   // darker soil
+    TPixel border = tigrRGB(100, 50, 20); // darker border
+
+    int left = 250, top = 160;
+    int rows = 3, cols = 3, gap = 10;
+    int bedWidth = 93, bedHeight = 126;
+
+    for (int r = 0; r < rows; r++)
+    {
+        for (int c = 0; c < cols; c++)
+        {
+            int x = left + c * (bedWidth + gap);
+            int y = top + r * (bedHeight + gap);
+            tigrFillRect(screen, x, y, bedWidth, bedHeight, soil);
+            tigrRect(screen, x, y, bedWidth, bedHeight, border);
+        }
+    }
+}
+
+void updateFarmerNight(Tigr *screen)
+{
+    if (!player.sprite)
+        initPlayer(&player, "assets/farmer.png");
+    movePlayer(&player, screen);
+    drawPlayer(&player, screen);
+}
 
 void drawNight(Tigr *screen)
 {
-    // Clear screen with a dark blue "night" color
-    tigrClear(screen, tigrRGB(10, 15, 40));
+    assetsNight();
 
-    // Draw a temporary moon
-    tigrFillCircle(screen, 1100, 150, 60, tigrRGB(220, 220, 230));
+    // Fill background with dark blue‑green tone
+    tigrFill(screen, 0, 0, screen->w, screen->h, tigrRGB(20, 60, 80));
 
-    // Alert text
-    tigrPrint(screen, tfont, 550, 100, tigrRGB(255, 0, 0), "THE ENEMIES ARE COMING!");
-
-    // Ensure the player can still move and be drawn during the night
-    if (!player.sprite)
+    // Draw night grass tiles
+    if (grassNight)
     {
-        initPlayer(&player, "assets/farmer.png");
+        for (int y = 0; y < screen->h; y += grassNight->h)
+        {
+            for (int x = 0; x < screen->w; x += grassNight->w)
+            {
+                tigrBlit(screen, grassNight, x, y, 0, 0, grassNight->w, grassNight->h);
+            }
+        }
     }
-    movePlayer(&player, screen);
-    drawPlayer(&player, screen);
+
+    drawFarmPlotNight(screen);
+    
+
+    // House stays visible
+    if (houseN)
+        tigrBlitAlpha(screen, houseN, 760, 200, 0, 0, houseN->w, houseN->h, 255);
+
+    // Fence stays visible
+    if (fenceN)
+        tigrBlitAlpha(screen, fenceN, 8, -30, 0, 0, fenceN->w, fenceN->h, 255);
+
+    // Path stays visible
+    if (pathN)
+        tigrBlitAlpha(screen, pathN, 320, 100, 0, 0, pathN->w, pathN->h, 255);
+
+    updateFarmerNight(screen);
+
+    
 }

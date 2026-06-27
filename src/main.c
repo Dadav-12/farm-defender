@@ -6,10 +6,11 @@
 #include "../lib/player.h"
 #include "../lib/night.h"
 #include "../lib/crop.h"
+#include<stdio.h>
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
-const float DAY_LENGTH = 180.0f;  // Morning lasts 180 seconds or 3 minutes
-const float NIGHT_LENGTH = 60.0f; // Night lasts 60 seconds or 1 minutes
+const float DAY_LENGTH = 30.0f;  // Morning lasts 180 seconds or 3 minutes
+const float NIGHT_LENGTH = 30.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
 int currentDay = 1;
 
@@ -53,7 +54,9 @@ int main()
             }
             break;
         case NIGHT:
+           
             drawNight(screen);
+            cropLogic(&player, screen);
 
             // Run the timer for the night phase
             dayTimer += dt;

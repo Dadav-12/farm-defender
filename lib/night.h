@@ -2,7 +2,7 @@
 #define NIGHT_H
 
 #include "../lib/tigr.h"
-#include "gamestate.h"
+#include "../lib/gamestate.h"
 
 void drawNight(Tigr *screen);
 

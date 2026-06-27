@@ -4,7 +4,7 @@
 #include "../lib/gamestate.h"
 #include "../lib/player.h"
 #include <stdlib.h>
-
+#include<stdio.h>
 // Global 
 Crop crops[ROWS][COLS];
 
@@ -49,8 +49,27 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-    //water//
-    if (tigrKeyDown(screen, 'E') && player->waterCount>0)
+   
+
+    //Night healing//
+    if (currentState == NIGHT)
+    {
+        for (int r = 0; r < ROWS; r++)
+        {
+            for (int c = 0; c < COLS; c++)
+            {
+                Crop *crop = &crops[r][c];
+                if (crop->isWatering)
+                {
+                    crop->health = MAX_HEALTH;
+                    crop->isWatering = false;
+                    printf("Night\n");
+                }
+            }
+        }
+    }
+    // water//
+    if (tigrKeyDown(screen, 'E') && player->waterCount > 0)
     {
         for (int r = 0; r < ROWS; r++)
         {
@@ -66,33 +85,15 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-    //Night healing//
-    if (currentState == NIGHT)
-    {
-        for (int r = 0; r < ROWS; r++)
-        {
-            for (int c = 0; c < COLS; c++)
-            {
-                Crop *crop = &crops[r][c];
-                if (crop->isWatering)
-                {
-                    crop->health = MAX_HEALTH;
-                    crop->canHarvest = true;
-                    crop->isWatering = false;
-                }
-            }
-        }
-    }
-
     //Harvest//
-    if (tigrKeyDown(screen, 'H'))
+    if (tigrKeyDown(screen, 'H') && currentState==MORNING)
     {
         for (int r = 0; r < ROWS; r++)
         {
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest)
+                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest )
                 {
                     player->balance += 5;
                     crop->health = 0;
@@ -102,6 +103,7 @@ void cropLogic(Player *player, Tigr *screen)
             }
         }
     }
+   
 
     // Draw crops
     for (int r = 0; r < ROWS; r++)
