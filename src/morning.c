@@ -6,7 +6,6 @@
 #include <stdio.h>
 
 Tigr *house = NULL;
-Tigr *shop = NULL;
 Tigr *fence = NULL;
 Tigr *grass = NULL;
 Tigr *path = NULL;
@@ -16,10 +15,6 @@ void assets()
     if (!house)
     {
         house = tigrLoadImage("assets/house.png");
-    }
-    if (!shop)
-    {
-        shop = tigrLoadImage("assets/shop.png");
     }
     if (!fence)
     {
@@ -35,7 +30,7 @@ void assets()
     }
 }
 
-//draw plot//
+// draw plot//
 void updateFarmer(Tigr *screen)
 {
     if (!player.sprite)
@@ -66,18 +61,10 @@ void drawMorning(Tigr *screen)
         }
     }
 
-   
-
     // Draw house on the right side of the path
     if (house)
     {
         tigrBlitAlpha(screen, house, 760, 200, 0, 0, house->w, house->h, 255);
-    }
-
-    // Draw shop below the house
-    if (shop)
-    {
-        tigrBlitAlpha(screen, shop, 800, 350, 0, 0, shop->w, shop->h, 255);
     }
 
     // Draaw the fence surrounding the base

@@ -4,8 +4,8 @@
 #include "../lib/gamestate.h"
 #include "../lib/player.h"
 #include <stdlib.h>
-#include<stdio.h>
-// Global 
+#include <stdio.h>
+// Global
 Crop crops[ROWS][COLS];
 
 // Sprite
@@ -27,7 +27,7 @@ void initCrops()
         {
             crops[r][c].x = startX + c * gapX;
             crops[r][c].y = startY + r * gapY;
-            crops[r][c].health = 100;
+            crops[r][c].health = MAX_HEALTH;
             crops[r][c].canHarvest = false;
             crops[r][c].isWatering = false;
         }
@@ -49,10 +49,8 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-   
-
-    //Night healing//
-    if (currentState == NIGHT)
+    // Mornign Plant heal back to full health //
+    if (currentState == MORNING)
     {
         for (int r = 0; r < ROWS; r++)
         {
@@ -62,13 +60,29 @@ void cropLogic(Player *player, Tigr *screen)
                 if (crop->isWatering)
                 {
                     crop->health = MAX_HEALTH;
+                }
+            }
+        }
+    }
+
+    // Night Set isWatered to fales to reset everything //
+    if (currentState == NIGHT)
+    {
+        for (int r = 0; r < ROWS; r++)
+        {
+            for (int c = 0; c < COLS; c++)
+            {
+                Crop *crop = &crops[r][c];
+                if (crop->isWatering)
+                {
                     crop->isWatering = false;
                     printf("Night\n");
                 }
             }
         }
     }
-    // water//
+
+    // water //
     if (tigrKeyDown(screen, 'E') && player->waterCount > 0)
     {
         for (int r = 0; r < ROWS; r++)
@@ -85,15 +99,15 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-    //Harvest//
-    if (tigrKeyDown(screen, 'H') && currentState==MORNING)
+    // Harvest //
+    if (tigrKeyDown(screen, 'H') && currentState == MORNING)
     {
         for (int r = 0; r < ROWS; r++)
         {
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest )
+                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest)
                 {
                     player->balance += 5;
                     crop->health = 0;
@@ -103,7 +117,6 @@ void cropLogic(Player *player, Tigr *screen)
             }
         }
     }
-   
 
     // Draw crops
     for (int r = 0; r < ROWS; r++)
