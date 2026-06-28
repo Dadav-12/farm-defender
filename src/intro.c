@@ -1,5 +1,7 @@
 #include "gamestate.h"
 #include "intro.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void drawSceneryIntro(Tigr *screen)
 {
@@ -49,22 +51,42 @@ void detectMouseClick(Tigr *screen)
         }
     }
 }
+
+Tigr *Logo = NULL;
+
+void asset()
+{
+    if (!Logo)
+    {
+        Logo = tigrLoadImage("assets/Logo.png");
+    }
+}
+
 void drawStartbox(Tigr *screen)
 {
     // draw box//
     tigrFill(screen, button.x, button.y, button.w, button.h, tigrRGB(255, 0, 0));
-    tigrPrint(screen, tfont, button.x + 70, button.y + 30, tigrRGB(255, 255, 255), "START GAME");
+
+    if (Logo)
+    {
+        tigrBlitAlpha(screen, Logo, 320, 100, 0, 0, 600, 300, 255);
+    }
+
+    tigrPrint(screen, tfont, button.x + 90, button.y + 35, tigrRGB(255, 255, 255), "START GAME");
 }
 
 void drawIntro(Tigr *screen)
 {
-    tigrClear(screen,
-              tigrRGB(135, 206, 235));
+    asset();
+
+    tigrClear(screen, tigrRGB(135, 206, 235));
+
     // draw box to recieve click//
     drawStartbox(screen);
 
     // 3.draw the cloud sky scenry//
     drawSceneryIntro(screen);
+
     // 4.detect the mouse click on gamestart and switch to next screen and update game state to 2//
     detectMouseClick(screen);
 }

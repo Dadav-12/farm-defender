@@ -4,8 +4,8 @@
 #include "../lib/gamestate.h"
 #include "../lib/player.h"
 #include <stdlib.h>
-#include<stdio.h>
-// Global 
+#include <stdio.h>
+// Global
 Crop crops[ROWS][COLS];
 
 // Sprite
@@ -27,7 +27,7 @@ void initCrops()
         {
             crops[r][c].x = startX + c * gapX;
             crops[r][c].y = startY + r * gapY;
-            crops[r][c].health = 100;
+            crops[r][c].health = MAX_HEALTH;
             crops[r][c].canHarvest = false;
             crops[r][c].isWatering = false;
             crops[r][c].cropAlive = true;
@@ -72,7 +72,8 @@ void cropLogic(Player *player, Tigr *screen)
             }
         }
     }
-    // water//
+
+    // water //
     if (tigrKeyDown(screen, 'E') && player->waterCount > 0)
     {
         for (int r = 0; r < ROWS; r++)
@@ -97,7 +98,7 @@ void cropLogic(Player *player, Tigr *screen)
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest )
+                if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest)
                 {
                     player->balance += 5;
                     crop->health = 0;
@@ -107,7 +108,6 @@ void cropLogic(Player *player, Tigr *screen)
             }
         }
     }
-   
 
     // Draw crops
     for (int r = 0; r < ROWS; r++)
