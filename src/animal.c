@@ -40,7 +40,7 @@ void initAnimals()
     for (int i = 0; i < ANIMAL_MAX; i++)
     {
         animals[i].isAlive = false;
-        animals[i].speed = 2.0f;
+        animals[i].speed = 1.5f;
         animals[i].sprite = animalSprite;
         animals[i].target = NULL;
         animals[i].attackCooldown = 0;
