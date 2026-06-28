@@ -1,5 +1,5 @@
 #include "../lib/tigr.h"
-#include "morning.h"
+#include "../lib/morning.h"
 #include <stdlib.h>
 #include "player.h"
 #include "store.h"
@@ -35,31 +35,7 @@ void assets()
     }
 }
 
-void drawFarmPlot(Tigr *screen)
-{
-    TPixel soil = tigrRGB(160, 82, 45);
-    TPixel border = tigrRGB(139, 69, 19);
-
-    int left = 250;
-    int top = 160;
-    int rows = 3, cols = 3, gap = 10;
-
-    int bedWidth = 93;   // fixed width
-    int bedHeight = 126; // fixed height
-
-    for (int r = 0; r < rows; r++)
-    {
-        for (int c = 0; c < cols; c++)
-        {
-            int x = left + c * (bedWidth + gap);
-            int y = top + r * (bedHeight + gap);
-
-            tigrFillRect(screen, x, y, bedWidth, bedHeight, soil);
-            tigrRect(screen, x, y, bedWidth, bedHeight, border);
-        }
-    }
-}
-
+//draw plot//
 void updateFarmer(Tigr *screen)
 {
     if (!player.sprite)
@@ -90,7 +66,7 @@ void drawMorning(Tigr *screen)
         }
     }
 
-    drawFarmPlot(screen);
+   
 
     // Draw house on the right side of the path
     if (house)

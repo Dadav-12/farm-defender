@@ -6,21 +6,27 @@
 #include "../lib/player.h"
 #include "../lib/night.h"
 #include "../lib/crop.h"
+#include "../lib/animal.h"
 #include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<stdbool.h>
+
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
 const float DAY_LENGTH = 30.0f;  // Morning lasts 180 seconds or 3 minutes
 const float NIGHT_LENGTH = 30.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
 int currentDay = 1;
-
-
+bool animalsSpawned = false;
 
 int main()
 {
+    srand(time(NULL));
     Tigr *screen = tigrWindow(1280, 801, "Farm Defender", 0);
 
     initCrops(); // calling the function to initialized the crops
+    initAnimals();
 
     while (!tigrClosed(screen))
     {
@@ -57,6 +63,14 @@ int main()
            
             drawNight(screen);
             cropLogic(&player, screen);
+            if (!animalsSpawned)
+            {
+                spawnAnimals(currentDay * 2 + 1);
+                animalsSpawned = true;
+            }
+
+            drawAnimals(screen);
+            updateAnimals();
 
             // Run the timer for the night phase
             dayTimer += dt;
@@ -69,6 +83,8 @@ int main()
                 currentState = MORNING;
                 dayTimer = 0.0f; // Reset timer
                 currentDay++;    // Advance to the next day
+                animalCount = 0;
+                animalsSpawned = false;
 
                 // check winning condition
                 if (currentDay > 5)

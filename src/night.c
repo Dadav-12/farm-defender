@@ -22,27 +22,6 @@ void assetsNight()
         pathN = tigrLoadImage("assets/path.png");
 }
 
-void drawFarmPlotNight(Tigr *screen)
-{
-
-    TPixel soil = tigrRGB(120, 60, 30);   // darker soil
-    TPixel border = tigrRGB(100, 50, 20); // darker border
-
-    int left = 250, top = 160;
-    int rows = 3, cols = 3, gap = 10;
-    int bedWidth = 93, bedHeight = 126;
-
-    for (int r = 0; r < rows; r++)
-    {
-        for (int c = 0; c < cols; c++)
-        {
-            int x = left + c * (bedWidth + gap);
-            int y = top + r * (bedHeight + gap);
-            tigrFillRect(screen, x, y, bedWidth, bedHeight, soil);
-            tigrRect(screen, x, y, bedWidth, bedHeight, border);
-        }
-    }
-}
 
 void updateFarmerNight(Tigr *screen)
 {
@@ -71,7 +50,7 @@ void drawNight(Tigr *screen)
         }
     }
 
-    drawFarmPlotNight(screen);
+   
     
 
     // House stays visible
