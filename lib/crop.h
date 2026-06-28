@@ -11,9 +11,11 @@
 typedef struct
 {
     int x, y;
-    int health;
+    int health;//chek harvest or not//
+    int cropHP;//check attack from wolf//
     bool canHarvest;
     bool isWatering;
+    bool cropAlive;
 } Crop;
 extern Crop crops[ROWS][COLS];
 

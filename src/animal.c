@@ -138,7 +138,7 @@ void updateAnimals()
         {
             if (a->attackCooldown <= 0)
             {
-                a->target->health--;    // damage crop
+                a->target->cropHP -= 5;                       // damage crop
                 a->attackCooldown = 30; // wait 30 frames before next attack
             }
         }
@@ -148,9 +148,14 @@ void updateAnimals()
             a->attackCooldown--;
 
         // Retarget if crop destroyed
-        if (a->target->health <= 0)
+        if (a->target->cropHP <= 0)
         {
+          
+            a->target->cropAlive = false;
+            a->target->canHarvest = false;
+            a->target->health = 0;
             a->target = findNextAliveCrop();
         }
+        
     }
 }

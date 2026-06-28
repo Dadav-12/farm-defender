@@ -30,20 +30,23 @@ void initCrops()
             crops[r][c].health = 100;
             crops[r][c].canHarvest = false;
             crops[r][c].isWatering = false;
+            crops[r][c].cropAlive = true;
+            crops[r][c].cropHP = 100;
         }
     }
 }
 
 void cropLogic(Player *player, Tigr *screen)
 {
-    if (currentState == MORNING)
+    if (currentState == MORNING )
     {
         for (int r = 0; r < ROWS; r++)
         {
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (crop->health == MAX_HEALTH)
+
+                if (crop->health == MAX_HEALTH && crop->cropAlive == true)
                     crop->canHarvest = true;
             }
         }
@@ -59,11 +62,12 @@ void cropLogic(Player *player, Tigr *screen)
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (crop->isWatering)
+                if (crop->isWatering && crop->cropAlive==true)
                 {
                     crop->health = MAX_HEALTH;
+                    crop->cropHP = 100;
                     crop->isWatering = false;
-                    printf("Night\n");
+                   
                 }
             }
         }
@@ -86,7 +90,7 @@ void cropLogic(Player *player, Tigr *screen)
     }
 
     //Harvest//
-    if (tigrKeyDown(screen, 'H') && currentState==MORNING)
+    if (tigrKeyDown(screen, 'H') && currentState==MORNING )
     {
         for (int r = 0; r < ROWS; r++)
         {
@@ -111,8 +115,10 @@ void cropLogic(Player *player, Tigr *screen)
         for (int c = 0; c < COLS; c++)
         {
             Crop *crop = &crops[r][c];
+            if(crop->cropAlive==true){
             Tigr *sprite = crop->canHarvest ? spriteHarvest : spriteNoHarvest;
             tigrBlitAlpha(screen, sprite, crop->x, crop->y, 0, 0, sprite->w, sprite->h, 255);
+            }
         }
     }
 }
