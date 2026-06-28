@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 Tigr *house = NULL;
-Tigr *fence = NULL;
+Tigr *fences = NULL;
 Tigr *grass = NULL;
 Tigr *path = NULL;
 
@@ -16,9 +16,9 @@ void assets()
     {
         house = tigrLoadImage("assets/house.png");
     }
-    if (!fence)
+    if (!fences)
     {
-        fence = tigrLoadImage("assets/fence.png");
+        fences = tigrLoadImage("assets/fence.png");
     }
     if (!grass)
     {
@@ -68,9 +68,9 @@ void drawMorning(Tigr *screen)
     }
 
     // Draaw the fence surrounding the base
-    if (fence)
+    if (fences)
     {
-        tigrBlitAlpha(screen, fence, 8, -30, 0, 0, fence->w, fence->h, 255);
+        tigrBlitAlpha(screen, fences, 8, -30, 0, 0, fences->w, fences->h, 255);
     }
 
     // Draw path

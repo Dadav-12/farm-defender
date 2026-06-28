@@ -5,6 +5,7 @@
 #include "../lib/player.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 // Global
 Crop crops[ROWS][COLS];
 
@@ -38,7 +39,7 @@ void initCrops()
 
 void cropLogic(Player *player, Tigr *screen)
 {
-    if (currentState == MORNING )
+    if (currentState == MORNING)
     {
         for (int r = 0; r < ROWS; r++)
         {
@@ -52,9 +53,7 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-   
-
-    //Night healing//
+    // Night healing//
     if (currentState == NIGHT)
     {
         for (int r = 0; r < ROWS; r++)
@@ -62,12 +61,11 @@ void cropLogic(Player *player, Tigr *screen)
             for (int c = 0; c < COLS; c++)
             {
                 Crop *crop = &crops[r][c];
-                if (crop->isWatering && crop->cropAlive==true)
+                if (crop->isWatering && crop->cropAlive == true)
                 {
                     crop->health = MAX_HEALTH;
                     crop->cropHP = 100;
                     crop->isWatering = false;
-                   
                 }
             }
         }
@@ -90,8 +88,8 @@ void cropLogic(Player *player, Tigr *screen)
         }
     }
 
-    //Harvest//
-    if (tigrKeyDown(screen, 'H') && currentState==MORNING )
+    // Harvest//
+    if (tigrKeyDown(screen, 'H') && currentState == MORNING)
     {
         for (int r = 0; r < ROWS; r++)
         {
@@ -100,7 +98,7 @@ void cropLogic(Player *player, Tigr *screen)
                 Crop *crop = &crops[r][c];
                 if (abs(player->x - crop->x) < 50 && abs(player->y - crop->y) < 50 && crop->canHarvest)
                 {
-                    player->balance += 5;
+                    player->balance += 10;
                     crop->health = 0;
                     crop->canHarvest = false;
                     crop->isWatering = false;
@@ -115,9 +113,10 @@ void cropLogic(Player *player, Tigr *screen)
         for (int c = 0; c < COLS; c++)
         {
             Crop *crop = &crops[r][c];
-            if(crop->cropAlive==true){
-            Tigr *sprite = crop->canHarvest ? spriteHarvest : spriteNoHarvest;
-            tigrBlitAlpha(screen, sprite, crop->x, crop->y, 0, 0, sprite->w, sprite->h, 255);
+            if (crop->cropAlive == true)
+            {
+                Tigr *sprite = crop->canHarvest ? spriteHarvest : spriteNoHarvest;
+                tigrBlitAlpha(screen, sprite, crop->x, crop->y, 0, 0, sprite->w, sprite->h, 255);
             }
         }
     }

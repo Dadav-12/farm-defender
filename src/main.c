@@ -7,15 +7,15 @@
 #include "../lib/night.h"
 #include "../lib/crop.h"
 #include "../lib/animal.h"
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<stdbool.h>
-
+#include "../lib/fence.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
-const float DAY_LENGTH = 30.0f;  // Morning lasts 180 seconds or 3 minutes
-const float NIGHT_LENGTH = 30.0f; // Night lasts 60 seconds or 1 minutes
+const float DAY_LENGTH = 10.0f;   // Morning lasts 180 seconds or 3 minutes
+const float NIGHT_LENGTH = 10.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
 int currentDay = 1;
 bool animalsSpawned = false;
@@ -27,6 +27,7 @@ int main()
 
     initCrops(); // calling the function to initialized the crops
     initAnimals();
+    initFence();
 
     while (!tigrClosed(screen))
     {
@@ -43,6 +44,7 @@ int main()
             break;
         case MORNING:
             drawMorning(screen);
+            displayFenceHealth(screen);
             cropLogic(&player, screen);
 
             // Increment our timer by the delta time
@@ -60,7 +62,7 @@ int main()
             }
             break;
         case NIGHT:
-           
+
             drawNight(screen);
             cropLogic(&player, screen);
             if (!animalsSpawned)
@@ -90,6 +92,11 @@ int main()
                 if (currentDay > 5)
                 {
                     currentState = WIN;
+                }
+                if (player.health <= 0)
+                {
+                    currentState = LOSE;
+                    break;
                 }
             }
             break;

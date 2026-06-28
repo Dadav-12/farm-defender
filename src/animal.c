@@ -122,9 +122,25 @@ void updateAnimals()
         if (a->target == NULL)
             continue;
 
+        // check colison with crops
         float dx = a->target->x - a->x;
         float dy = a->target->y - a->y;
         float dist = sqrtf(dx * dx + dy * dy);
+
+        // checck colision with player
+        float dxPlayer = player.x - a->x;
+        float dyPlayer = player.y - a->y;
+        float distToPlayer = sqrtf(dxPlayer * dxPlayer + dyPlayer * dyPlayer);
+
+        // damage player if player is near with cooldown
+        if (distToPlayer < 30)
+        {
+            if (a->attackCooldown <= 0)
+            {
+                player.health -= 5;     // damage player
+                a->attackCooldown = 30; // wait 30 frames before next attack
+            }
+        }
 
         // Movement
         if (dist > 10) // stop when close enough
@@ -133,12 +149,12 @@ void updateAnimals()
             a->y += (dy / dist) * a->speed;
         }
 
-        // Attack with cooldown
+        // Attack crop with cooldown
         if (dist < 10)
         {
             if (a->attackCooldown <= 0)
             {
-                a->target->cropHP -= 5;                       // damage crop
+                a->target->health -= 5; // damage crop
                 a->attackCooldown = 30; // wait 30 frames before next attack
             }
         }
@@ -148,14 +164,9 @@ void updateAnimals()
             a->attackCooldown--;
 
         // Retarget if crop destroyed
-        if (a->target->cropHP <= 0)
+        if (a->target->health <= 0)
         {
-          
-            a->target->cropAlive = false;
-            a->target->canHarvest = false;
-            a->target->health = 0;
             a->target = findNextAliveCrop();
         }
-        
     }
 }
