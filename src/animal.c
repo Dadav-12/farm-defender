@@ -24,7 +24,7 @@ Crop *findNextAliveCrop()
     {
         for (int c = 0; c < COLS; c++)
         {
-            if (crops[r][c].health > 0)
+            if (crops[r][c].cropHP > 0 && crops[r][c].cropAlive==1)
             {
                 return &crops[r][c];
             }
@@ -155,6 +155,7 @@ void updateAnimals()
             if (a->attackCooldown <= 0)
             {
                 a->target->health -= 5; // damage crop
+                a->target->cropHP -= 5;
                 a->attackCooldown = 30; // wait 30 frames before next attack
             }
         }
@@ -164,8 +165,12 @@ void updateAnimals()
             a->attackCooldown--;
 
         // Retarget if crop destroyed
-        if (a->target->health <= 0)
+        if (a->target->cropHP <= 0 && a->target->cropAlive==1)
         {
+           
+            a->target->cropAlive = false;
+            a->target->cropHP = 0;
+            cropsMax--;
             a->target = findNextAliveCrop();
         }
     }

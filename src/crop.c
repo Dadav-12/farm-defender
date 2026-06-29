@@ -8,6 +8,7 @@
 
 // Global
 Crop crops[ROWS][COLS];
+int cropsMax = 9;
 
 // Sprite
 static Tigr *spriteHarvest = NULL;
