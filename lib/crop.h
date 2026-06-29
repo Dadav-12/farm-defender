@@ -18,7 +18,7 @@ typedef struct
     bool cropAlive;
 } Crop;
 extern Crop crops[ROWS][COLS];
-
+extern int cropsMax;
 
 // One main function to handle all crop logic
 void cropLogic(Player *player, Tigr *screen);

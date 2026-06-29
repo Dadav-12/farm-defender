@@ -8,6 +8,7 @@
 #include "../lib/tigr.h"
 #include "../lib/crop.h"
 #include "../lib/gamestate.h"
+#include "../lib/fence.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
@@ -24,7 +25,7 @@ Crop *findNextAliveCrop()
     {
         for (int c = 0; c < COLS; c++)
         {
-            if (crops[r][c].health > 0)
+            if (crops[r][c].cropHP > 0 && crops[r][c].cropAlive == 1)
             {
                 return &crops[r][c];
             }
@@ -61,6 +62,7 @@ void spawnAnimals(int amount)
     {
         int side = rand() % 4;
         animals[i].isAlive = true;
+        animals[i].health = 100;
 
         switch (side)
         {
@@ -110,7 +112,7 @@ void drawAnimals(Tigr *screen)
     }
 }
 
-void updateAnimals()
+void updateAnimals(Tigr *screen)
 {
     for (int i = 0; i < animalCount; i++)
     {
@@ -142,6 +144,16 @@ void updateAnimals()
             }
         }
 
+        // player attack animals//
+        if (tigrKeyDown(screen, 'J') && distToPlayer <= 40 && player.hammerCount >= 1)
+        {
+            a->health -= 10;
+            if (a->health <= 0)
+            {
+                a->isAlive = 0;
+            }
+        }
+
         // Movement
         if (dist > 10) // stop when close enough
         {
@@ -155,6 +167,7 @@ void updateAnimals()
             if (a->attackCooldown <= 0)
             {
                 a->target->health -= 5; // damage crop
+                a->target->cropHP -= 5;
                 a->attackCooldown = 30; // wait 30 frames before next attack
             }
         }
@@ -164,9 +177,58 @@ void updateAnimals()
             a->attackCooldown--;
 
         // Retarget if crop destroyed
-        if (a->target->health <= 0)
+        if (a->target->cropHP <= 0 && a->target->cropAlive == 1)
         {
+
+            a->target->cropAlive = false;
+            a->target->cropHP = 0;
+            a->target->health = 0;
+            cropsMax--;
             a->target = findNextAliveCrop();
+        }
+
+        if (gameFence.health > 0)
+        {
+            // Define the fence boundaries
+            float fenceLeft = 170;
+            float fenceRight = 1100;
+            float fenceTop = 90;
+            float fenceBottom = 600;
+
+            // Check if the animal is inside the fence boundaries
+            if (a->x > fenceLeft && a->x < fenceRight && a->y > fenceTop && a->y < fenceBottom)
+            {
+
+                // Calculate distances to each edge
+                float distLeft = a->x - fenceLeft;
+                float distRight = fenceRight - a->x;
+                float distTop = a->y - fenceTop;
+                float distBottom = fenceBottom - a->y;
+
+                // damaging the fence
+                if (a->attackCooldown <= 0)
+                {
+                    gameFence.health -= 5;
+                }
+
+                // Find the smallest distance to determine the closest edge
+                if (distLeft < distRight && distLeft < distTop && distLeft < distBottom)
+                {
+                    a->x = fenceLeft - a->sprite->w; // Push left
+                }
+                else if (distRight < distTop && distRight < distBottom)
+                {
+                    a->x = fenceRight + a->sprite->w; // Push right
+                }
+                else if (distTop < distBottom)
+                {
+                    a->y = fenceTop - a->sprite->h; // Push up
+                }
+                else
+                {
+                    a->y = fenceBottom + a->sprite->h; // Push down
+                }
+            }
         }
     }
 }

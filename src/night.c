@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include "../lib/player.h"
 #include <stdio.h>
-#include"../lib/crop.h"
+#include "../lib/crop.h"
+#include "../lib/fence.h"
 
 Tigr *houseN = NULL;
 Tigr *fenceN = NULL;
@@ -21,7 +22,6 @@ void assetsNight()
     if (!pathN)
         pathN = tigrLoadImage("assets/path.png");
 }
-
 
 void updateFarmerNight(Tigr *screen)
 {
@@ -50,22 +50,22 @@ void drawNight(Tigr *screen)
         }
     }
 
-   
-    
-
     // House stays visible
     if (houseN)
         tigrBlitAlpha(screen, houseN, 760, 200, 0, 0, houseN->w, houseN->h, 255);
 
     // Fence stays visible
-    if (fenceN)
-        tigrBlitAlpha(screen, fenceN, 8, -30, 0, 0, fenceN->w, fenceN->h, 255);
-
+    if (gameFence.health > 0)
+    {
+        if (fenceN)
+            tigrBlitAlpha(screen, fenceN, 8, -30, 0, 0, fenceN->w, fenceN->h, 255);
+    }
+    if (gameFence.health <= 0)
+    {
+    }
     // Path stays visible
     if (pathN)
         tigrBlitAlpha(screen, pathN, 320, 100, 0, 0, pathN->w, pathN->h, 255);
 
     updateFarmerNight(screen);
-
-    
 }

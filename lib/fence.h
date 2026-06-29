@@ -2,6 +2,7 @@
 #define FENCE_H
 
 #include "../lib/tigr.h"
+#include "../lib/player.h"
 #include <stdbool.h>
 
 typedef struct

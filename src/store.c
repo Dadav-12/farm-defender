@@ -1,7 +1,9 @@
 #include "../lib/tigr.h"
+#include "../lib/fence.h"
 #include "store.h"
 #include <stdbool.h>
 #include "player.h"
+
 Item hammer = {"hammer", 15};
 Item water = {"water", 5};
 Item medicine = {"medicine", 20};
@@ -25,7 +27,7 @@ void storeSystem(Tigr *screen, Player *player)
         tigrPrint(screen, tfont, 960, 240, tigrRGB(255, 255, 0), "1. Buy Hammer (15 coins)");
         tigrPrint(screen, tfont, 960, 270, tigrRGB(255, 255, 0), "2. Buy Water (5 coins)");
         tigrPrint(screen, tfont, 960, 300, tigrRGB(255, 255, 0), "3. Buy Medicine (20 coins)");
-        tigrPrint(screen, tfont, 960, 330, tigrRGB(255, 255, 0), "4. Upgrade Fence (50 coins)");
+        tigrPrint(screen, tfont, 960, 330, tigrRGB(255, 255, 0), "4. Buy Fence (50 coins)");
         tigrPrint(screen, tfont, 960, 360, tigrRGB(255, 255, 0), "Press O to close");
 
         // Buy Hammer
@@ -51,11 +53,12 @@ void storeSystem(Tigr *screen, Player *player)
             }
         }
 
-        // Upgrade fence level increas fence health
+        // Buy Fence to protect crop
         if (tigrKeyDown(screen, '4') && player->balance >= fence.price)
         {
             {
                 player->balance -= 50;
+                gameFence.health = gameFence.maxHealth;
             }
         }
     }

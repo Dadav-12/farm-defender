@@ -15,6 +15,8 @@ void instruction(Tigr *screen)
     tigrPrint(screen, tfont, 800, 250, tigrRGB(255, 255, 255), "O - OPEN SHOP");
     tigrPrint(screen, tfont, 800, 280, tigrRGB(255, 255, 255), "H - HARVEST CROP");
     tigrPrint(screen, tfont, 800, 310, tigrRGB(255, 255, 255), "E - WATER CROP");
+    tigrPrint(screen, tfont, 800, 340, tigrRGB(255, 255, 255), "Q - FIX FENCE");
+    tigrPrint(screen, tfont, 800, 370, tigrRGB(255, 255, 255), "J - ATTACK ANIMAL");
     tigrPrint(screen, tfont, 350, 420, tigrRGB(255, 255, 255), "PROTECT YOUR CROPS");
     tigrPrint(screen, tfont, 350, 450, tigrRGB(255, 255, 255), "SURVIVE 5 NIGHTS");
     tigrPrint(screen, tfont, 350, 550, tigrRGB(255, 255, 0), "PRESS ENTER TO START");

@@ -14,10 +14,10 @@
 #include <stdbool.h>
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
-const float DAY_LENGTH = 10.0f;   // Morning lasts 180 seconds or 3 minutes
-const float NIGHT_LENGTH = 10.0f; // Night lasts 60 seconds or 1 minutes
+const float DAY_LENGTH = 180.0f;  // Morning lasts 180 seconds or 3 minutes
+const float NIGHT_LENGTH = 60.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
-int currentDay = 1;
+int currentDay = 0;
 bool animalsSpawned = false;
 
 int main()
@@ -45,6 +45,7 @@ int main()
         case MORNING:
             drawMorning(screen);
             displayFenceHealth(screen);
+            repairFence(screen, &player);
             cropLogic(&player, screen);
 
             // Increment our timer by the delta time
@@ -64,6 +65,7 @@ int main()
         case NIGHT:
 
             drawNight(screen);
+            displayFenceHealth(screen);
             cropLogic(&player, screen);
             if (!animalsSpawned)
             {
@@ -72,12 +74,23 @@ int main()
             }
 
             drawAnimals(screen);
-            updateAnimals();
+            updateAnimals(screen);
 
             // Run the timer for the night phase
             dayTimer += dt;
             tigrPrint(screen, tfont, 600, 20, tigrRGB(255, 255, 255), "Time to Morning: %.1f", NIGHT_LENGTH - dayTimer);
             tigrPrint(screen, tfont, 600, 40, tigrRGB(255, 255, 255), "Day: %d / 5", currentDay);
+
+            // check winning condition
+            if (currentDay > 5)
+            {
+                currentState = WIN;
+            }
+            if (player.health <= 0 || cropsMax <= 0)
+            {
+                currentState = LOSE;
+                break;
+            }
 
             // switch back to Morning
             if (dayTimer >= NIGHT_LENGTH)
@@ -87,17 +100,6 @@ int main()
                 currentDay++;    // Advance to the next day
                 animalCount = 0;
                 animalsSpawned = false;
-
-                // check winning condition
-                if (currentDay > 5)
-                {
-                    currentState = WIN;
-                }
-                if (player.health <= 0)
-                {
-                    currentState = LOSE;
-                    break;
-                }
             }
             break;
 

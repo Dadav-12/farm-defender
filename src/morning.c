@@ -1,5 +1,6 @@
 #include "../lib/tigr.h"
 #include "../lib/morning.h"
+#include "../lib/fence.h"
 #include <stdlib.h>
 #include "player.h"
 #include "store.h"
@@ -68,9 +69,13 @@ void drawMorning(Tigr *screen)
     }
 
     // Draaw the fence surrounding the base
-    if (fences)
+    if (gameFence.health > 0)
     {
-        tigrBlitAlpha(screen, fences, 8, -30, 0, 0, fences->w, fences->h, 255);
+        if (fences)
+            tigrBlitAlpha(screen, fences, 8, -30, 0, 0, fences->w, fences->h, 255);
+    }
+    if (gameFence.health <= 0)
+    {
     }
 
     // Draw path
