@@ -144,7 +144,7 @@ void updateAnimals(Tigr* screen)
         }
 
         //player attack animals//
-        if(tigrKeyDown(screen,'T')&&distToPlayer<=40){
+        if(tigrKeyDown(screen,'T')&&distToPlayer<=40 &&player.hammerCount>=1){
                 a->health -= 10;
                 if(a->health<=0){
                     a->isAlive = 0;
