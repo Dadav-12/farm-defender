@@ -17,6 +17,18 @@ void initFence()
     gameFence.y = 350;
 }
 
+void repairFence(Tigr *screen, Player *player)
+{
+    if (tigrKeyHeld(screen, 'Q') && gameFence.health < gameFence.maxHealth)
+    {
+        gameFence.health += 50;
+        if (gameFence.health > gameFence.maxHealth)
+        {
+            gameFence.health = gameFence.maxHealth;
+        }
+    }
+}
+
 void displayFenceHealth(Tigr *screen)
 {
     // Displa fence Health

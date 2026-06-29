@@ -41,7 +41,7 @@ void movePlayer(Player *p, Tigr *screen)
     if (p->y >= 135 && p->x > 590 && p->x < 670)
         isOutsideFarm = 0;
 
-    // Keep inside farm fence
+    // Keep  player inside farm fence
     if (p->x < 215)
         p->x = 215;
     if (p->x > 1100 - p->sprite->w)
@@ -73,21 +73,4 @@ void displayPlayerState(Player *p, Tigr *screen)
     tigrPrint(screen, tfont, 30, 110, tigrRGB(255, 255, 255), "hp = %d", p->health);
     tigrFillRect(screen, 20, 150, 150, 40, tigrRGB(0, 128, 0));
     tigrPrint(screen, tfont, 30, 160, tigrRGB(255, 255, 255), "balance = %d", p->balance);
-}
-
-void repairFence(Tigr *screen, Player *p)
-{
-    float interactionRange = 100.0f;
-    float dx = p->x - gameFence.x;
-    float dy = p->y - gameFence.y;
-    float distance = sqrt(dx * dx + dy * dy);
-
-    // Only repair if player is close enough, has a hammer, and presses 'Q'
-    if (distance < interactionRange && tigrKeyHeld(screen, 'Q') && (p->hammerCount >= 1))
-    {
-        if (gameFence.health < gameFence.maxHealth)
-        {
-            gameFence.health += 50;
-        }
-    }
 }
