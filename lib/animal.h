@@ -30,6 +30,6 @@ extern int animalCount;
 void initAnimals();
 void spawnAnimals(int amount);
 void drawAnimals(Tigr* screen);
-void updateAnimals();
+void updateAnimals(Tigr* screen);
 
 #endif

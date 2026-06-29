@@ -61,6 +61,7 @@ void spawnAnimals(int amount)
     {
         int side = rand() % 4;
         animals[i].isAlive = true;
+        animals[i].health = 100;
 
         switch (side)
         {
@@ -110,7 +111,7 @@ void drawAnimals(Tigr *screen)
     }
 }
 
-void updateAnimals()
+void updateAnimals(Tigr* screen)
 {
     for (int i = 0; i < animalCount; i++)
     {
@@ -142,6 +143,15 @@ void updateAnimals()
             }
         }
 
+        //player attack animals//
+        if(tigrKeyDown(screen,'T')&&distToPlayer<=40){
+                a->health -= 10;
+                if(a->health<=0){
+                    a->isAlive = 0;
+                }
+            
+        }
+        
         // Movement
         if (dist > 10) // stop when close enough
         {
@@ -170,6 +180,7 @@ void updateAnimals()
            
             a->target->cropAlive = false;
             a->target->cropHP = 0;
+            a->target->health = 0;
             cropsMax--;
             a->target = findNextAliveCrop();
         }

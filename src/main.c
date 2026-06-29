@@ -72,7 +72,7 @@ int main()
             }
 
             drawAnimals(screen);
-            updateAnimals();
+            updateAnimals(screen);
 
             // Run the timer for the night phase
             dayTimer += dt;
