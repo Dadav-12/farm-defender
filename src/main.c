@@ -55,6 +55,13 @@ int main()
             tigrPrint(screen, tfont, 600, 20, tigrRGB(255, 255, 255), "Time to Night: %.1f", DAY_LENGTH - dayTimer);
             tigrPrint(screen, tfont, 600, 40, tigrRGB(255, 255, 255), "Day: %d / 5", currentDay);
 
+            // check winning condition
+            if (currentDay > 5)
+            {
+                currentState = WIN;
+                break;
+            }
+
             // switch to Night
             if (dayTimer >= DAY_LENGTH)
             {
@@ -81,11 +88,7 @@ int main()
             tigrPrint(screen, tfont, 600, 20, tigrRGB(255, 255, 255), "Time to Morning: %.1f", NIGHT_LENGTH - dayTimer);
             tigrPrint(screen, tfont, 600, 40, tigrRGB(255, 255, 255), "Day: %d / 5", currentDay);
 
-            // check winning condition
-            if (currentDay > 5)
-            {
-                currentState = WIN;
-            }
+            // check losing condition
             if (player.health <= 0 || cropsMax <= 0)
             {
                 currentState = LOSE;
