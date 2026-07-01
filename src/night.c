@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "../lib/crop.h"
 #include "../lib/fence.h"
+#include"../lib/store.h"
 
 Tigr *houseN = NULL;
 Tigr *fenceN = NULL;
@@ -68,4 +69,5 @@ void drawNight(Tigr *screen)
         tigrBlitAlpha(screen, pathN, 320, 100, 0, 0, pathN->w, pathN->h, 255);
 
     updateFarmerNight(screen);
+    storeSystem(screen, &player);
 }

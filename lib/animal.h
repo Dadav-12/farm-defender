@@ -6,7 +6,7 @@
 #include "../lib/crop.h"
 #include "../lib/Tigr.h"
 
-#define ANIMAL_MAX 10
+#define ANIMAL_MAX 15
 
 typedef struct
 {

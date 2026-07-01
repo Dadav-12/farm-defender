@@ -17,7 +17,7 @@
 const float DAY_LENGTH = 60.0f;   // Morning lasts 60 seconds or 1 minutes
 const float NIGHT_LENGTH = 60.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
-int currentDay = 0;
+int currentDay = 1;
 bool animalsSpawned = false;
 
 int main()
@@ -69,7 +69,7 @@ int main()
             cropLogic(&player, screen);
             if (!animalsSpawned)
             {
-                spawnAnimals(currentDay * 2 + 1);
+                spawnAnimals(currentDay * 3 +2);
                 animalsSpawned = true;
             }
 
@@ -93,6 +93,7 @@ int main()
             }
 
             // switch back to Morning
+            
             if (dayTimer >= NIGHT_LENGTH)
             {
                 currentState = MORNING;
@@ -100,6 +101,7 @@ int main()
                 currentDay++;    // Advance to the next day
                 animalCount = 0;
                 animalsSpawned = false;
+                
             }
             break;
 
