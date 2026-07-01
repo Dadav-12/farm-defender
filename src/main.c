@@ -69,7 +69,7 @@ int main()
             cropLogic(&player, screen);
             if (!animalsSpawned)
             {
-                spawnAnimals(currentDay * 3 +2);
+                spawnAnimals(currentDay * 2 + 1);
                 animalsSpawned = true;
             }
 
@@ -93,7 +93,6 @@ int main()
             }
 
             // switch back to Morning
-            
             if (dayTimer >= NIGHT_LENGTH)
             {
                 currentState = MORNING;
@@ -101,7 +100,6 @@ int main()
                 currentDay++;    // Advance to the next day
                 animalCount = 0;
                 animalsSpawned = false;
-                
             }
             break;
 

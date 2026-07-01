@@ -145,7 +145,7 @@ void updateAnimals(Tigr *screen)
         }
 
         // player attack animals//
-        if (tigrKeyDown(screen, 'J') && distToPlayer <= 40 && player.hammerCount >= 1)
+        if (tigrKeyDown(screen, 'J') && distToPlayer <= 80 && player.hammerCount >= 1)
         {
             a->health -= 10;
             if (a->health <= 0)
@@ -191,9 +191,9 @@ void updateAnimals(Tigr *screen)
         {
             // Define the fence boundaries
             float fenceLeft = 170;
-            float fenceRight = 1100;
+            float fenceRight = 1030;
             float fenceTop = 90;
-            float fenceBottom = 600;
+            float fenceBottom = 550;
 
             // Check if the animal is inside the fence boundaries
             if (a->x > fenceLeft && a->x < fenceRight && a->y > fenceTop && a->y < fenceBottom)
