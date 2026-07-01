@@ -14,7 +14,7 @@
 #include <stdbool.h>
 
 // for testing can change DAY_LENGTH and NIGHT_LENGTH to just 10 seconds
-const float DAY_LENGTH = 180.0f;  // Morning lasts 180 seconds or 3 minutes
+const float DAY_LENGTH = 60.0f;   // Morning lasts 60 seconds or 1 minutes
 const float NIGHT_LENGTH = 60.0f; // Night lasts 60 seconds or 1 minutes
 float dayTimer = 0.0f;
 int currentDay = 0;
